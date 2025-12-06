@@ -1,0 +1,5 @@
+{
+  "name": "DevTools AI",
+  "description": "A comprehensive developer toolkit powered by Google Gemini AI, featuring smart code generation, data visualization, and classic utilities.",
+  "requestFramePermissions": []
+}
