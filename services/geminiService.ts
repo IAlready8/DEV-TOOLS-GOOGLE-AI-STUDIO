@@ -32,11 +32,11 @@ import { GeneratedChartData, ColorPalette, AppSettings } from "../types";
 
 const LS_KEY = 'devtools_ai_settings';
 
-// Safe accessor for process.env to prevent crashes in browsers
+// Safe environment variable accessor to prevent crashes in browsers
 const getEnvApiKey = (): string => {
   try {
     return process.env.API_KEY || '';
-  } catch {
+  } catch (e) {
     return '';
   }
 };
@@ -76,7 +76,7 @@ const getAiClient = () => {
   return new GoogleGenAI({ apiKey });
 };
 
-// --- Existing Methods ---
+// --- AI Methods ---
 
 export const generateSqlAdvice = async (prompt: string): Promise<string> => {
   try {

@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { Tool, ToolCategory } from './types';
 
-// Tools Imports
+// Tools Imports - Ensure ALL 45 tools are imported
 import SmartRegex from './components/tools/SmartRegex';
 import SmartSql from './components/tools/SmartSql';
 import ChartGenius from './components/tools/ChartGenius';
@@ -206,6 +206,14 @@ const TOOLS: Tool[] = [
     icon: '😂',
     component: <EmojiTranslator />
   },
+  {
+    id: 'util-math',
+    name: 'Quick Math',
+    description: 'Solve complex math problems with AI.',
+    category: ToolCategory.AI,
+    icon: '🧮',
+    component: <QuickMath />
+  },
 
   // --- Text FX ---
   {
@@ -301,6 +309,14 @@ const TOOLS: Tool[] = [
     category: ToolCategory.GENERATORS,
     icon: '🏷️',
     component: <MetaTagWizard />
+  },
+  {
+    id: 'util-pass',
+    name: 'Password Analyzer',
+    description: 'Check password strength client-side.',
+    category: ToolCategory.GENERATORS,
+    icon: '🛡️',
+    component: <PasswordAnalyzer />
   },
 
   // --- Converters ---
@@ -415,24 +431,6 @@ const TOOLS: Tool[] = [
     category: ToolCategory.CONVERTERS,
     icon: '📋',
     component: <ListTransformer />
-  },
-
-  // --- Utilities ---
-  {
-    id: 'util-math',
-    name: 'Quick Math',
-    description: 'Solve complex math problems with AI.',
-    category: ToolCategory.AI,
-    icon: '🧮',
-    component: <QuickMath />
-  },
-  {
-    id: 'util-pass',
-    name: 'Password Analyzer',
-    description: 'Check password strength client-side.',
-    category: ToolCategory.GENERATORS,
-    icon: '🛡️',
-    component: <PasswordAnalyzer />
   }
 ];
 

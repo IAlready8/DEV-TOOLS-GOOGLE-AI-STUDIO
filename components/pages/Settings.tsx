@@ -10,20 +10,17 @@ const Settings: React.FC = () => {
   const [provider, setProvider] = useState<'google' | 'openai' | 'anthropic'>('google');
   const [model, setModel] = useState('');
   const [saved, setSaved] = useState(false);
-  const [hasEnvKey, setHasEnvKey] = useState(false);
+
+  // Safe ENV access
+  const envKeyPresent = (() => {
+    try { return !!process.env.API_KEY; } catch { return false; }
+  })();
 
   useEffect(() => {
     const settings = getSettings();
     setApiKey(settings.apiKey || '');
     setProvider(settings.provider || 'google');
     setModel(settings.model || '');
-    
-    // Check for env key safely
-    try {
-      setHasEnvKey(!!process.env.API_KEY);
-    } catch {
-      setHasEnvKey(false);
-    }
   }, []);
 
   const handleSave = () => {
@@ -65,7 +62,7 @@ const Settings: React.FC = () => {
               They are never sent to our servers, only directly to the AI providers.
             </p>
             <div className="text-xs text-slate-500 font-mono bg-slate-900 p-3 rounded-lg border border-slate-800">
-              Current Env Key: {hasEnvKey ? 'Present (Hidden)' : 'Not Set'}
+              Current Env Key: {envKeyPresent ? 'Present (Hidden)' : 'Not Set'}
             </div>
           </div>
         </div>
@@ -110,7 +107,7 @@ const Settings: React.FC = () => {
                 type="password" 
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
-                placeholder={hasEnvKey ? "Using Environment Variable..." : "sk-..."}
+                placeholder={envKeyPresent ? "Using Environment Variable..." : "sk-..."}
                 className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 pl-10 text-white focus:ring-2 focus:ring-emerald-500 outline-none transition-all placeholder:text-slate-600"
               />
               <Key className="w-4 h-4 text-slate-500 absolute left-3 top-3.5" />
