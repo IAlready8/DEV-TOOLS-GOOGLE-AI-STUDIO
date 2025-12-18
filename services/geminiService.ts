@@ -32,6 +32,15 @@ import { GeneratedChartData, ColorPalette, AppSettings } from "../types";
 
 const LS_KEY = 'devtools_ai_settings';
 
+// Safe accessor for process.env to prevent crashes in browsers
+const getEnvApiKey = (): string => {
+  try {
+    return process.env.API_KEY || '';
+  } catch {
+    return '';
+  }
+};
+
 export const getSettings = (): AppSettings => {
   if (typeof window === 'undefined') return { apiKey: '', provider: 'google', model: '' };
   try {
@@ -58,7 +67,7 @@ const getModel = (defaultModel: string) => {
 // Helper to get AI instance safely
 const getAiClient = () => {
   const settings = getSettings();
-  const apiKey = settings.apiKey || process.env.API_KEY || '';
+  const apiKey = settings.apiKey || getEnvApiKey();
 
   if (!apiKey) {
     throw new Error("API Key is missing. Please check Settings or environment configuration.");
@@ -488,5 +497,5 @@ export const analyzeDiff = async (original: string, modified: string): Promise<s
 
 export const checkApiKey = (): boolean => {
   const settings = getSettings();
-  return !!(settings.apiKey || process.env.API_KEY);
+  return !!(settings.apiKey || getEnvApiKey());
 };
