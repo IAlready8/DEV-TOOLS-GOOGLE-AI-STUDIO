@@ -1,36 +1,55 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DevTools AI</title>
+    <title>DevTools AI // BRUTALIST_EDITION</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              primary: '#3b82f6',
-              secondary: '#64748b',
-              dark: '#020617', 
-              surface: '#0f172a',
-              glass: 'rgba(15, 23, 42, 0.6)',
+              acid: '#ccff00',
+              brutalBlack: '#0a0a0a',
+              brutalWhite: '#f0f0f0',
+              brutalRed: '#ff0033',
+              brutalGray: '#1a1a1a',
+              industrial: '#222222',
             },
             fontFamily: {
-              sans: ['Inter', 'system-ui', 'sans-serif'],
+              sans: ['Space Grotesk', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+              display: ['Syne', 'sans-serif'],
             },
             animation: {
-              'fade-in': 'fadeIn 0.5s ease-out',
-              'slide-up': 'slideUp 0.5s ease-out',
+              'noise': 'noise 0.2s infinite',
+              'glitch': 'glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite',
+              'shudder': 'shudder 4s infinite',
             },
             keyframes: {
-              fadeIn: {
-                '0%': { opacity: '0' },
-                '100%': { opacity: '1' },
+              noise: {
+                '0%, 100%': { transform: 'translate(0,0)' },
+                '10%': { transform: 'translate(-1%,-1%)' },
+                '20%': { transform: 'translate(-2%,1%)' },
+                '30%': { transform: 'translate(1%,-2%)' },
+                '40%': { transform: 'translate(-1%,3%)' },
               },
-              slideUp: {
-                '0%': { transform: 'translateY(20px)', opacity: '0' },
-                '100%': { transform: 'translateY(0)', opacity: '1' },
+              glitch: {
+                '0%': { transform: 'translate(0)' },
+                '20%': { transform: 'translate(-3px, 3px)' },
+                '40%': { transform: 'translate(-3px, -3px)' },
+                '60%': { transform: 'translate(3px, 3px)' },
+                '80%': { transform: 'translate(3px, -3px)' },
+                '100%': { transform: 'translate(0)' },
+              },
+              shudder: {
+                '0%, 100%': { transform: 'rotate(0deg)' },
+                '2%': { transform: 'rotate(1deg)' },
+                '4%': { transform: 'rotate(-1deg)' },
+                '6%': { transform: 'rotate(0deg)' },
               }
             }
           }
@@ -38,49 +57,77 @@
       }
     </script>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@700;800&display=swap');
 
       body {
-        background-color: #020617;
-        color: #f8fafc;
-        font-family: 'Inter', sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        background-image: 
-          radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 25%),
-          radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 25%);
-        background-attachment: fixed;
-      }
-      
-      /* Glassmorphism Utilities */
-      .glass-panel {
-        background: rgba(15, 23, 42, 0.6);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-      }
-      
-      .glass-header {
-        background: rgba(15, 23, 42, 0.8);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        background-color: #0a0a0a;
+        color: #f0f0f0;
+        overflow-x: hidden;
+        cursor: crosshair;
       }
 
-      /* Custom scrollbar */
+      .brutal-shadow {
+        box-shadow: 8px 8px 0px 0px #000;
+      }
+      
+      .brutal-shadow-acid {
+        box-shadow: 6px 6px 0px 0px #ccff00;
+      }
+
+      .brutal-border {
+        border: 4px solid #0a0a0a;
+      }
+
+      .noise-bg {
+        position: fixed;
+        inset: -50%;
+        width: 200%;
+        height: 200%;
+        background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+        animation: noise .2s infinite;
+        opacity: .08;
+        z-index: 1000;
+        pointer-events: none;
+      }
+
+      .grain-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        pointer-events: none;
+        background: radial-gradient(circle at 50% 50%, transparent, #0a0a0a);
+        opacity: 0.6;
+      }
+
       ::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
+        width: 14px;
       }
       ::-webkit-scrollbar-track {
-        background: transparent; 
+        background: #0a0a0a; 
       }
       ::-webkit-scrollbar-thumb {
-        background: rgba(148, 163, 184, 0.2); 
-        border-radius: 3px;
+        background: #f0f0f0;
+        border: 4px solid #0a0a0a;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: rgba(148, 163, 184, 0.4); 
+        background: #ccff00; 
+      }
+
+      #canvas-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .masonry-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        grid-auto-rows: 10px;
+        gap: 0 1.5rem;
       }
     </style>
   <script type="importmap">
@@ -97,6 +144,9 @@
 </script>
 </head>
   <body>
+    <div class="noise-bg"></div>
+    <div class="grain-overlay"></div>
+    <div id="canvas-container"></div>
     <div id="root"></div>
   </body>
 </html>
