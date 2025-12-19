@@ -1,65 +1,483 @@
 
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   Search, 
   Menu,
   X,
   Settings as SettingsIcon,
   ArrowLeft,
-  Zap,
-  LayoutGrid,
-  Maximize2,
-  Terminal,
-  Cpu,
-  Github,
-  Globe,
-  Star,
-  Layers
+  Zap
 } from 'lucide-react';
 import { Tool, ToolCategory } from './types';
 
-// Core Tool Components
-import TextConverterTable from './components/tools/TextConverterTable';
-// Placeholder Tool Imports (In a real app, these would be the provided files)
+// Tools Imports - Ensure ALL 45+ tools are imported
 import SmartRegex from './components/tools/SmartRegex';
 import SmartSql from './components/tools/SmartSql';
 import ChartGenius from './components/tools/ChartGenius';
+import JsonFormatter from './components/tools/JsonFormatter';
+import UuidGenerator from './components/tools/UuidGenerator';
+import SmartCron from './components/tools/SmartCron';
+import CodeConverter from './components/tools/CodeConverter';
+import Base64Converter from './components/tools/Base64Converter';
+import ColorPalette from './components/tools/ColorPalette';
+import TextPolisher from './components/tools/TextPolisher';
+import GitCommitGenius from './components/tools/GitCommitGenius';
+import SmartReadme from './components/tools/SmartReadme';
+import CssAnimator from './components/tools/CssAnimator';
+import MockDataChef from './components/tools/MockDataChef';
+import MetaTagWizard from './components/tools/MetaTagWizard';
+import QuickMath from './components/tools/QuickMath';
+import PasswordAnalyzer from './components/tools/PasswordAnalyzer';
+import UnitConverter from './components/tools/UnitConverter';
+import TextForge from './components/tools/TextForge';
+import MarkdownConverter from './components/tools/MarkdownConverter';
+import ColorConverter from './components/tools/ColorConverter';
+import CsvJsonConverter from './components/tools/CsvJsonConverter';
+import JwtDecoder from './components/tools/JwtDecoder';
+import NumberBaseConverter from './components/tools/NumberBaseConverter';
+import TimestampConverter from './components/tools/TimestampConverter';
+import UrlEncoder from './components/tools/UrlEncoder';
+import StringCaseConverter from './components/tools/StringCaseConverter';
+import BinaryConverter from './components/tools/BinaryConverter';
+import PxRemConverter from './components/tools/PxRemConverter';
+import PromptAlchemy from './components/tools/PromptAlchemy';
+import SmartSvg from './components/tools/SmartSvg';
+import CurlConverter from './components/tools/CurlConverter';
+import DiffViewer from './components/tools/DiffViewer';
+import CryptoHasher from './components/tools/CryptoHasher';
+import WifiQr from './components/tools/WifiQr';
+import TextToSql from './components/tools/TextToSql';
+import MatplotlibGen from './components/tools/MatplotlibGen';
+import MermaidGen from './components/tools/MermaidGen';
+import SmartSummarizer from './components/tools/SmartSummarizer';
+import SentimentAnalyzer from './components/tools/SentimentAnalyzer';
+import EmojiTranslator from './components/tools/EmojiTranslator';
+import MorseConverter from './components/tools/MorseConverter';
+import ListTransformer from './components/tools/ListTransformer';
+import ProjectScaffolder from './components/tools/ProjectScaffolder';
+import SmartDiffAnalyst from './components/tools/SmartDiffAnalyst';
+
+// New Tool Imports
+import ArchitectureArchitect from './components/tools/ArchitectureArchitect';
+import DockerGenius from './components/tools/DockerGenius';
+import TestOracle from './components/tools/TestOracle';
+import SecurityAuditor from './components/tools/SecurityAuditor';
+import SchemaWeaver from './components/tools/SchemaWeaver';
 
 // Pages
 import Settings from './components/pages/Settings';
 
 const TOOLS: Tool[] = [
+  // --- AI Powered ---
   {
-    id: 'text-master-converter',
-    name: 'Text Engine Pro',
-    description: '17+ Industrial transformations. Leet, Morse, Glitch, Zerowidth. Version 7.0 Elite performance.',
-    category: ToolCategory.TEXT_FX,
-    icon: '⚡',
-    component: <TextConverterTable />
+    id: 'ai-arch',
+    name: 'Architecture Architect',
+    description: 'Design high-level system components and interactions.',
+    category: ToolCategory.AI,
+    icon: '🏢',
+    component: <ArchitectureArchitect />
+  },
+  {
+    id: 'ai-docker',
+    name: 'Docker Genius',
+    description: 'Optimized multi-stage Dockerfiles for any stack.',
+    category: ToolCategory.AI,
+    icon: '🐳',
+    component: <DockerGenius />
+  },
+  {
+    id: 'ai-test',
+    name: 'Test Oracle',
+    description: 'Generate comprehensive unit tests for your code.',
+    category: ToolCategory.AI,
+    icon: '🧪',
+    component: <TestOracle />
+  },
+  {
+    id: 'ai-security',
+    name: 'Security Auditor',
+    description: 'Audit code for common security vulnerabilities.',
+    category: ToolCategory.AI,
+    icon: '🔐',
+    component: <SecurityAuditor />
+  },
+  {
+    id: 'ai-prompt',
+    name: 'Prompt Alchemy',
+    description: 'Transform ideas into expert Midjourney/LLM prompts.',
+    category: ToolCategory.AI,
+    icon: '🔮',
+    component: <PromptAlchemy />
+  },
+  {
+    id: 'ai-scaffold',
+    name: 'Project Scaffolder',
+    description: 'Generate full-scale project setup scripts.',
+    category: ToolCategory.AI,
+    icon: '🏗️',
+    component: <ProjectScaffolder />
+  },
+  {
+    id: 'ai-diff',
+    name: 'Smart Diff Analyst',
+    description: 'Semantic analysis of text/code differences.',
+    category: ToolCategory.AI,
+    icon: '🧐',
+    component: <SmartDiffAnalyst />
+  },
+  {
+    id: 'ai-svg',
+    name: 'Smart SVG Studio',
+    description: 'Generate production-ready SVG vectors from descriptions.',
+    category: ToolCategory.AI,
+    icon: '✒️',
+    component: <SmartSvg />
+  },
+  {
+    id: 'ai-curl',
+    name: 'cURL to Code',
+    description: 'Convert cURL commands to Python, Node, Go, etc.',
+    category: ToolCategory.AI,
+    icon: '📟',
+    component: <CurlConverter />
   },
   {
     id: 'ai-regex',
-    name: 'Regex Wizard',
-    description: 'Synthesize expressions with acid precision. LLM-backed pattern generation.',
+    name: 'AI Regex Wizard',
+    description: 'Generate, explain, and debug regular expressions.',
     category: ToolCategory.AI,
     icon: '🪄',
     component: <SmartRegex />
   },
   {
     id: 'ai-sql',
-    name: 'SQL Monolith',
-    description: 'Optimize high-availability query structures. Industrial DBA automation.',
+    name: 'Smart SQL Studio',
+    description: 'Optimize, format, and explain SQL queries.',
     category: ToolCategory.AI,
     icon: '🧠',
     component: <SmartSql />
   },
   {
+    id: 'ai-text-sql',
+    name: 'NLP to SQL',
+    description: 'Convert natural language questions to SQL queries.',
+    category: ToolCategory.AI,
+    icon: '🗣️',
+    component: <TextToSql />
+  },
+  {
     id: 'ai-chart',
-    name: 'Data Shard',
-    description: 'Geometric visualization of industrial data streams using high-fidelity vector charts.',
+    name: 'Data Visualizer',
+    description: 'Turn text or raw data into beautiful interactive charts.',
     category: ToolCategory.AI,
     icon: '📊',
     component: <ChartGenius />
+  },
+  {
+    id: 'ai-matplotlib',
+    name: 'Python Vis Gen',
+    description: 'Generate Matplotlib/Seaborn code from description.',
+    category: ToolCategory.AI,
+    icon: '📉',
+    component: <MatplotlibGen />
+  },
+  {
+    id: 'ai-mermaid',
+    name: 'Smart Diagram',
+    description: 'Generate Mermaid.js flowcharts and diagrams.',
+    category: ToolCategory.AI,
+    icon: '🕸️',
+    component: <MermaidGen />
+  },
+  {
+    id: 'ai-cron',
+    name: 'Smart Cron',
+    description: 'Natural language to Cron expressions.',
+    category: ToolCategory.AI,
+    icon: '⏰',
+    component: <SmartCron />
+  },
+  {
+    id: 'ai-code',
+    name: 'Polyglot Converter',
+    description: 'Convert code between programming languages.',
+    category: ToolCategory.AI,
+    icon: '🔄',
+    component: <CodeConverter />
+  },
+  {
+    id: 'ai-git',
+    name: 'Git Commit Genius',
+    description: 'Generate conventional commit messages.',
+    category: ToolCategory.AI,
+    icon: '🎋',
+    component: <GitCommitGenius />
+  },
+  {
+    id: 'ai-readme',
+    name: 'Smart README',
+    description: 'Generate professional project documentation.',
+    category: ToolCategory.AI,
+    icon: '📝',
+    component: <SmartReadme />
+  },
+  {
+    id: 'ai-sum',
+    name: 'Smart Summarizer',
+    description: 'Condense long articles into concise summaries.',
+    category: ToolCategory.AI,
+    icon: '📄',
+    component: <SmartSummarizer />
+  },
+  {
+    id: 'ai-sent',
+    name: 'Sentiment Analyzer',
+    description: 'Detect emotional tone and score.',
+    category: ToolCategory.AI,
+    icon: '❤️',
+    component: <SentimentAnalyzer />
+  },
+  {
+    id: 'ai-emoji',
+    name: 'Emoji Translator',
+    description: 'Turn boring text into expressive emoji sentences.',
+    category: ToolCategory.AI,
+    icon: '😂',
+    component: <EmojiTranslator />
+  },
+  {
+    id: 'util-math',
+    name: 'Quick Math',
+    description: 'Solve complex math problems with AI.',
+    category: ToolCategory.AI,
+    icon: '🧮',
+    component: <QuickMath />
+  },
+
+  // --- Text FX ---
+  {
+    id: 'text-forge',
+    name: 'Text Forge',
+    description: 'Advanced text mutator: Leet, Glitch, Zalgo.',
+    category: ToolCategory.TEXT_FX,
+    icon: '⚒️',
+    component: <TextForge />
+  },
+
+  // --- Creative ---
+  {
+    id: 'cre-palette',
+    name: 'Color Studio',
+    description: 'Generate cohesive color palettes from vibes.',
+    category: ToolCategory.CREATIVE,
+    icon: '🎨',
+    component: <ColorPalette />
+  },
+  {
+    id: 'cre-polish',
+    name: 'Magic Editor',
+    description: 'Text polisher with tone adjustment.',
+    category: ToolCategory.CREATIVE,
+    icon: '✨',
+    component: <TextPolisher />
+  },
+  {
+    id: 'cre-css',
+    name: 'CSS Animator',
+    description: 'Generate CSS keyframes from text.',
+    category: ToolCategory.CREATIVE,
+    icon: '🎬',
+    component: <CssAnimator />
+  },
+
+  // --- Formatters ---
+  {
+    id: 'fmt-json',
+    name: 'JSON Formatter',
+    description: 'Validate, format, and minify JSON.',
+    category: ToolCategory.FORMATTERS,
+    icon: '📜',
+    component: <JsonFormatter />
+  },
+  {
+    id: 'fmt-diff',
+    name: 'Diff-o-matic',
+    description: 'Visual text comparison tool.',
+    category: ToolCategory.FORMATTERS,
+    icon: '⚖️',
+    component: <DiffViewer />
+  },
+  {
+    id: 'fmt-hash',
+    name: 'Crypto Hasher',
+    description: 'SHA-256/512 & HMAC calculator.',
+    category: ToolCategory.FORMATTERS,
+    icon: '🔒',
+    component: <CryptoHasher />
+  },
+
+  // --- Generators ---
+  {
+    id: 'gen-wifi',
+    name: 'WiFi QR Builder',
+    description: 'Create secure WiFi sharing QR codes.',
+    category: ToolCategory.GENERATORS,
+    icon: '📡',
+    component: <WifiQr />
+  },
+  {
+    id: 'gen-uuid',
+    name: 'UUID Generator',
+    description: 'Generate bulk v4 UUIDs.',
+    category: ToolCategory.GENERATORS,
+    icon: '🆔',
+    component: <UuidGenerator />
+  },
+  {
+    id: 'gen-mock',
+    name: 'Mock Data Chef',
+    description: 'Generate realistic JSON datasets.',
+    category: ToolCategory.GENERATORS,
+    icon: '👨‍🍳',
+    component: <MockDataChef />
+  },
+  {
+    id: 'gen-meta',
+    name: 'Meta Tag Wizard',
+    description: 'Generate SEO HTML tags.',
+    category: ToolCategory.GENERATORS,
+    icon: '🏷️',
+    component: <MetaTagWizard />
+  },
+  {
+    id: 'util-pass',
+    name: 'Password Analyzer',
+    description: 'Check password strength client-side.',
+    category: ToolCategory.GENERATORS,
+    icon: '🛡️',
+    component: <PasswordAnalyzer />
+  },
+
+  // --- Converters ---
+  {
+    id: 'conv-schema',
+    name: 'Schema Weaver',
+    description: 'JSON to TypeScript / Zod / JSON Schema.',
+    category: ToolCategory.CONVERTERS,
+    icon: '🕸️',
+    component: <SchemaWeaver />
+  },
+  {
+    id: 'conv-base64',
+    name: 'Base64 Converter',
+    description: 'Encode/Decode Base64 strings safely.',
+    category: ToolCategory.CONVERTERS,
+    icon: '📦',
+    component: <Base64Converter />
+  },
+  {
+    id: 'conv-md',
+    name: 'Markdown Preview',
+    description: 'Live Markdown to HTML converter.',
+    category: ToolCategory.CONVERTERS,
+    icon: 'Ⓜ️',
+    component: <MarkdownConverter />
+  },
+  {
+    id: 'conv-color',
+    name: 'Color Converter',
+    description: 'HEX <-> RGB <-> HSL.',
+    category: ToolCategory.CONVERTERS,
+    icon: '🌈',
+    component: <ColorConverter />
+  },
+  {
+    id: 'conv-csv',
+    name: 'CSV <-> JSON',
+    description: 'Convert between CSV and JSON.',
+    category: ToolCategory.CONVERTERS,
+    icon: '📄',
+    component: <CsvJsonConverter />
+  },
+  {
+    id: 'conv-jwt',
+    name: 'JWT Decoder',
+    description: 'Inspect JWT headers and payloads.',
+    category: ToolCategory.CONVERTERS,
+    icon: '🔐',
+    component: <JwtDecoder />
+  },
+  {
+    id: 'conv-base',
+    name: 'Number Base',
+    description: 'Bin / Oct / Dec / Hex converter.',
+    category: ToolCategory.CONVERTERS,
+    icon: '#️⃣',
+    component: <NumberBaseConverter />
+  },
+  {
+    id: 'conv-time',
+    name: 'Timestamp',
+    description: 'Epoch to Human Date converter.',
+    category: ToolCategory.CONVERTERS,
+    icon: '🕒',
+    component: <TimestampConverter />
+  },
+  {
+    id: 'conv-url',
+    name: 'URL Encoder',
+    description: 'Escape/Unescape URL strings.',
+    category: ToolCategory.CONVERTERS,
+    icon: '🔗',
+    component: <UrlEncoder />
+  },
+  {
+    id: 'conv-case',
+    name: 'String Case',
+    description: 'Camel / Snake / Kebab / Pascal.',
+    category: ToolCategory.CONVERTERS,
+    icon: '🔠',
+    component: <StringCaseConverter />
+  },
+  {
+    id: 'conv-bin',
+    name: 'Binary Text',
+    description: 'Convert text to binary stream.',
+    category: ToolCategory.CONVERTERS,
+    icon: '🤖',
+    component: <BinaryConverter />
+  },
+  {
+    id: 'conv-px',
+    name: 'PX to REM',
+    description: 'CSS unit calculator.',
+    category: ToolCategory.CONVERTERS,
+    icon: '📐',
+    component: <PxRemConverter />
+  },
+  {
+    id: 'conv-unit',
+    name: 'Unit Converter',
+    description: 'Length, Weight, Temperature.',
+    category: ToolCategory.CONVERTERS,
+    icon: '📏',
+    component: <UnitConverter />
+  },
+  {
+    id: 'conv-morse',
+    name: 'Morse Code',
+    description: 'Text to Dots and Dashes.',
+    category: ToolCategory.CONVERTERS,
+    icon: '📻',
+    component: <MorseConverter />
+  },
+  {
+    id: 'conv-list',
+    name: 'List Transformer',
+    description: 'Convert lists to CSV, Arrays, etc.',
+    category: ToolCategory.CONVERTERS,
+    icon: '📋',
+    component: <ListTransformer />
   }
 ];
 
@@ -69,245 +487,238 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // 3JS Background Orchestration
-  useEffect(() => {
-    const container = document.getElementById('canvas-container');
-    const THREE = (window as any).THREE;
-    if (!container || !THREE) return;
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(renderer.domElement);
-
-    // Geometry: Brutalist Floating Shard
-    const geometry = new THREE.IcosahedronGeometry(2, 0);
-    const material = new THREE.MeshBasicMaterial({ 
-      color: 0xccff00, 
-      wireframe: true,
-      transparent: true,
-      opacity: 0.1 
-    });
-    const shard = new THREE.Mesh(geometry, material);
-    scene.add(shard);
-
-    // Particle Cloud
-    const particlesCount = 2000;
-    const posArray = new Float32Array(particlesCount * 3);
-    for(let i=0; i < particlesCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 15;
-    }
-    const particlesGeometry = new THREE.BufferGeometry();
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    const particlesMaterial = new THREE.PointsMaterial({ size: 0.005, color: 0xff0033, transparent: true, opacity: 0.4 });
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particlesMesh);
-
-    camera.position.z = 6;
-
-    const animate = () => {
-      requestAnimationFrame(animate);
-      shard.rotation.x += 0.002;
-      shard.rotation.y += 0.003;
-      particlesMesh.rotation.y -= 0.0005;
-      renderer.render(scene, camera);
-    };
-    animate();
-
-    const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    };
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (container.contains(renderer.domElement)) {
-        container.removeChild(renderer.domElement);
-      }
-    };
-  }, []);
-
-  const activeTool = useMemo(() => TOOLS.find(t => t.id === activeToolId), [activeToolId]);
+  const activeTool = useMemo(() => 
+    TOOLS.find(t => t.id === activeToolId), 
+  [activeToolId]);
 
   const filteredTools = useMemo(() => {
+    if (!searchQuery) return TOOLS;
     return TOOLS.filter(t => 
       t.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
       t.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [searchQuery]);
 
+  const groupedTools = useMemo(() => {
+    return filteredTools.reduce((acc, tool) => {
+      if (!acc[tool.category]) acc[tool.category] = [];
+      acc[tool.category].push(tool);
+      return acc;
+    }, {} as Record<string, Tool[]>);
+  }, [filteredTools]);
+
+  const handleGoHome = () => {
+    setActiveToolId(null);
+    setShowSettings(false);
+    setSidebarOpen(false);
+  };
+
+  const handleOpenSettings = () => {
+    setActiveToolId(null);
+    setShowSettings(true);
+    setSidebarOpen(false);
+  };
+
+  const handleSelectTool = (id: string) => {
+    setActiveToolId(id);
+    setShowSettings(false);
+    setSidebarOpen(false);
+  };
+
   return (
-    <div className="min-h-screen font-sans selection:bg-acid selection:text-brutalBlack">
+    <div className="min-h-screen bg-[#020617] text-slate-100 font-sans selection:bg-blue-500/30 overflow-hidden flex">
       
-      {/* Brutalist Sidebar Navigation */}
+      {/* Sidebar Overlay (Mobile) */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
       <aside className={`
-        fixed inset-y-0 left-0 z-50 w-80 bg-brutalBlack border-r-8 border-brutalBlack transform transition-transform duration-700 cubic-bezier(0.16, 1, 0.3, 1)
+        fixed lg:static inset-y-0 left-0 z-50 w-72 bg-[#0f172a]/80 backdrop-blur-xl border-r border-white/5 transform transition-transform duration-300 ease-out flex flex-col
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
-        <div className="h-full flex flex-col bg-brutalGray m-3 border-4 border-brutalBlack">
-          <div className="p-8 border-b-8 border-brutalBlack bg-acid text-brutalBlack">
-            <h1 className="font-display text-4xl font-black uppercase leading-none italic tracking-tighter">
-              DevTools<br/>AI//7.0
-            </h1>
-            <div className="mt-4 flex gap-4 text-xs font-mono font-bold uppercase opacity-60">
-              <span className="flex items-center gap-1"><Star className="w-3 h-3" /> ARCH:PRO</span>
-              <span className="flex items-center gap-1"><Star className="w-3 h-3" /> EDGE:01</span>
+        <div className="p-6 border-b border-white/5 flex items-center justify-between">
+          <div 
+            className="flex items-center gap-3 cursor-pointer group"
+            onClick={handleGoHome}
+          >
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/20 group-hover:scale-105 transition-transform">
+              <span className="text-2xl">🛠️</span>
+            </div>
+            <div>
+              <h1 className="font-bold text-lg tracking-tight text-white group-hover:text-blue-400 transition-colors">DevTools AI</h1>
+              <p className="text-xs text-slate-500 font-medium">v2.0.0 Pro</p>
             </div>
           </div>
+          <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-2 text-slate-400">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
 
-          <div className="p-5 bg-brutalBlack">
+        <div className="p-4">
+          <div className="relative group">
+            <Search className="absolute left-3 top-3 w-4 h-4 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
             <input 
               type="text" 
-              placeholder="SEARCH_MANIFEST_" 
-              className="w-full bg-industrial border-4 border-brutalWhite p-4 text-sm font-mono text-brutalWhite focus:bg-acid focus:text-brutalBlack focus:border-acid outline-none transition-all placeholder:text-brutalWhite/20"
+              placeholder="Search tools..." 
+              className="w-full bg-[#1e293b]/50 border border-white/5 rounded-xl py-2.5 pl-10 pr-4 text-sm text-slate-200 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent outline-none transition-all"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
+        </div>
 
-          <nav className="flex-1 overflow-y-auto p-5 space-y-10 custom-scrollbar">
-            {Object.values(ToolCategory).map(category => (
-              <div key={category} className="space-y-3">
-                <h3 className="text-[10px] font-black text-acid uppercase tracking-[0.4em] mb-4 border-b-2 border-acid/10 pb-2">
-                  {category}
-                </h3>
-                <div className="space-y-1">
-                  {TOOLS.filter(t => t.category === category).map(tool => (
-                    <button
-                      key={tool.id}
-                      onClick={() => { setActiveToolId(tool.id); setShowSettings(false); setSidebarOpen(false); }}
-                      className={`w-full text-left p-4 flex items-center gap-5 transition-all border-4 ${
-                        activeToolId === tool.id 
-                          ? 'bg-acid border-brutalBlack text-brutalBlack font-black shadow-[4px_4px_0px_0px_#000]' 
-                          : 'bg-transparent border-transparent text-brutalWhite/40 hover:text-acid hover:translate-x-2'
-                      }`}
-                    >
-                      <span className="text-2xl">{tool.icon}</span>
-                      <span className="text-xs font-mono uppercase font-bold">{tool.name}</span>
-                    </button>
-                  ))}
-                </div>
+        <div className="flex-1 overflow-y-auto py-2 px-3 space-y-6 custom-scrollbar">
+          {(Object.entries(groupedTools) as [string, Tool[]][]).map(([category, tools]) => (
+            <div key={category}>
+              <h3 className="px-3 text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 sticky top-0 bg-[#0f172a]/95 backdrop-blur py-2 z-10">
+                {category}
+              </h3>
+              <div className="space-y-1">
+                {tools.map(tool => (
+                  <button
+                    key={tool.id}
+                    onClick={() => handleSelectTool(tool.id)}
+                    className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-3 group relative overflow-hidden ${
+                      activeToolId === tool.id 
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' 
+                        : 'text-slate-400 hover:bg-white/5 hover:text-slate-100'
+                    }`}
+                  >
+                    <span className="text-xl relative z-10 group-hover:scale-110 transition-transform duration-200">
+                      {tool.icon}
+                    </span>
+                    <span className="relative z-10 truncate">{tool.name}</span>
+                    {activeToolId === tool.id && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-100" />
+                    )}
+                  </button>
+                ))}
               </div>
-            ))}
-          </nav>
+            </div>
+          ))}
+        </div>
 
+        {/* Footer / Settings */}
+        <div className="p-4 border-t border-white/5 bg-[#0f172a]/50">
           <button
-            onClick={() => { setShowSettings(true); setActiveToolId(null); setSidebarOpen(false); }}
-            className={`p-8 border-t-8 border-brutalBlack flex items-center gap-4 font-mono uppercase text-xs font-black tracking-[0.2em] transition-all ${
-              showSettings ? 'bg-brutalRed text-white' : 'bg-brutalWhite text-brutalBlack hover:bg-acid'
+            onClick={handleOpenSettings}
+            className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all ${
+              showSettings 
+                ? 'bg-slate-800 text-white shadow-inner' 
+                : 'text-slate-400 hover:bg-white/5 hover:text-white'
             }`}
           >
             <SettingsIcon className="w-5 h-5" />
-            <span>Preferences_</span>
+            <span>Settings</span>
           </button>
         </div>
       </aside>
 
-      {/* Main Orchestrator */}
-      <main className={`flex-1 flex flex-col min-h-screen transition-all duration-700 lg:pl-80`}>
-        
-        {/* Strike Header */}
-        <header className="h-24 lg:h-32 bg-brutalBlack flex items-center px-10 lg:px-16 justify-between sticky top-0 z-40 border-b-8 border-brutalBlack">
-          <div className="flex items-center gap-10">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-4 bg-acid text-brutalBlack brutal-shadow hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
-              <Menu className="w-8 h-8" />
-            </button>
-            <div className="hidden lg:flex items-center gap-6">
-              <div className="px-3 py-1 bg-brutalRed text-white font-mono text-[10px] font-black uppercase animate-pulse">LIVE::0X7FF</div>
-              <h2 className="font-display text-2xl font-black uppercase italic tracking-tighter text-white">
-                {activeTool ? activeTool.name : showSettings ? 'Configuration' : 'Dashboard'}
-              </h2>
-            </div>
-          </div>
-          <div className="flex items-center gap-10 font-mono text-[11px] font-black uppercase">
-            <div className="hidden xl:flex items-center gap-6 text-brutalWhite/30">
-              <span className="flex items-center gap-2"><Globe className="w-3 h-3" /> DEPLOY:GLOBAL</span>
-              <span className="flex items-center gap-2"><Github className="w-3 h-3" /> REPO:STRIKE</span>
-            </div>
-            <div className="px-4 py-2 border-4 border-acid text-acid flex items-center gap-3 brutal-shadow-acid bg-brutalBlack">
-              <Terminal className="w-4 h-4" />
-              v7.0.5_STABLE
-            </div>
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
+        {/* Mobile Header */}
+        <header className="lg:hidden h-16 border-b border-white/5 bg-[#0f172a]/80 backdrop-blur flex items-center px-4 justify-between shrink-0">
+          <div className="flex items-center gap-3">
+             <button onClick={() => setSidebarOpen(true)} className="p-2 -ml-2 text-slate-400 hover:text-white">
+               <Menu className="w-6 h-6" />
+             </button>
+             <span className="font-bold text-slate-100">
+               {activeTool ? activeTool.name : showSettings ? 'Settings' : 'DevTools AI'}
+             </span>
           </div>
         </header>
 
-        <div className="flex-1 p-8 lg:p-16 max-w-[1600px] mx-auto w-full relative z-10">
-          
-          {/* Dashboard View (Pinterest-Style) */}
-          {!showSettings && !activeToolId && (
-            <div className="animate-fade-in space-y-16">
-              <section className="space-y-8 pt-10">
-                <div className="flex items-center gap-4 text-acid font-mono text-sm font-black uppercase tracking-[0.4em]">
-                  <Layers className="w-5 h-5" /> 
-                  System.Architecture::Personal_Portfolio
-                </div>
-                <h1 className="font-display text-7xl lg:text-[10rem] font-black uppercase leading-[0.8] tracking-tighter text-brutalWhite italic drop-shadow-[10px_10px_0px_#ff0033]">
-                  INDUSTRIAL<br/>
-                  <span className="text-acid">DOMINANCE_</span>
-                </h1>
-                <p className="max-w-3xl font-mono text-2xl text-brutalWhite/40 border-l-[12px] border-acid pl-10 py-6 leading-relaxed italic">
-                  Built for edge-case hardware. Zero-latency transformations. This is the industrial standard for modern workflow orchestration.
-                </p>
-              </section>
+        <div className="flex-1 overflow-y-auto overflow-x-hidden relative custom-scrollbar bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-900/0 to-slate-900/0">
+          <div className="p-4 lg:p-8 max-w-[1600px] mx-auto w-full h-full flex flex-col">
+            
+            {/* View: Settings */}
+            {showSettings && (
+              <Settings />
+            )}
 
-              <div className="masonry-grid">
-                {filteredTools.map((tool, idx) => (
-                  <div key={tool.id} style={{ gridRowEnd: `span ${idx % 3 === 0 ? 45 : idx % 3 === 1 ? 35 : 40}` }} className="mb-6">
-                    <button
-                      onClick={() => setActiveToolId(tool.id)}
-                      className="w-full h-full group relative bg-brutalGray border-4 border-brutalBlack p-10 text-left transition-all hover:translate-x-[-10px] hover:translate-y-[-10px] hover:shadow-[15px_15px_0px_0px_#ccff00] flex flex-col overflow-hidden"
-                    >
-                      <div className="absolute top-0 right-0 p-6 font-mono text-[10px] font-black text-acid/20 uppercase">MOD_0{idx+1}</div>
-                      <div className="text-7xl mb-8 group-hover:scale-110 transition-transform duration-500">{tool.icon}</div>
-                      <h3 className="font-display text-4xl font-black uppercase mb-4 text-brutalWhite group-hover:text-acid transition-colors">{tool.name}</h3>
-                      <p className="font-mono text-sm text-brutalWhite/40 leading-relaxed mb-10 italic">{tool.description}</p>
-                      
-                      <div className="mt-auto flex justify-between items-center border-t-4 border-brutalBlack pt-6">
-                        <span className="text-[10px] font-mono text-acid bg-acid/5 px-3 py-1 uppercase font-black border border-acid/20">{tool.category}</span>
-                        <Maximize2 className="w-5 h-5 text-brutalWhite/20 group-hover:text-acid group-hover:rotate-90 transition-all duration-500" />
-                      </div>
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Configuration View */}
-          {showSettings && <Settings />}
-
-          {/* Tool Workspace View */}
-          {!showSettings && activeTool && (
-            <div className="animate-slide-up flex flex-col h-full bg-industrial border-[12px] border-brutalBlack brutal-shadow min-h-[85vh]">
-              <div className="bg-acid text-brutalBlack p-8 border-b-[12px] border-brutalBlack flex justify-between items-center">
-                <div className="flex items-center gap-8">
-                  <button onClick={() => setActiveToolId(null)} className="p-3 border-4 border-brutalBlack bg-brutalBlack text-white hover:bg-white hover:text-brutalBlack transition-all shadow-[6px_6px_0px_0px_#000] active:translate-x-1 active:translate-y-1 active:shadow-none">
-                    <ArrowLeft className="w-8 h-8" />
+            {/* View: Active Tool */}
+            {!showSettings && activeTool && (
+              <div className="flex flex-col h-full animate-fade-in">
+                <header className="mb-6 flex items-center gap-4 border-b border-white/5 pb-6">
+                  <button 
+                    onClick={handleGoHome}
+                    className="p-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 text-slate-400 hover:text-white transition-all group"
+                  >
+                    <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                   </button>
                   <div>
-                    <h2 className="font-display text-5xl font-black uppercase tracking-tighter leading-none italic">{activeTool.name}</h2>
-                    <p className="font-mono text-xs font-black opacity-60 mt-2 uppercase tracking-widest">Process_ID: {activeTool.id} // v7.0.5</p>
+                    <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                      <span className="text-3xl">{activeTool.icon}</span>
+                      {activeTool.name}
+                    </h2>
+                    <p className="text-slate-400 text-sm mt-1">{activeTool.description}</p>
                   </div>
-                </div>
-                <div className="hidden sm:flex items-center gap-8">
-                  <span className="font-mono text-[11px] border-4 border-brutalBlack px-4 py-2 uppercase font-black tracking-widest bg-brutalWhite">SHARD::0x1A2</span>
-                  <Cpu className="w-12 h-12 animate-pulse text-brutalBlack" />
+                </header>
+                <div className="flex-1 min-h-0">
+                  {activeTool.component}
                 </div>
               </div>
-              <div className="flex-1 p-10 overflow-auto custom-scrollbar">
-                {activeTool.component}
+            )}
+
+            {/* View: Home Dashboard */}
+            {!showSettings && !activeTool && (
+              <div className="animate-fade-in pb-20">
+                <div className="text-center py-12 lg:py-20 space-y-6">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-4">
+                    <Zap className="w-4 h-4 fill-blue-500/20" /> 50+ Professional Tools Available
+                  </div>
+                  <h1 className="text-4xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 tracking-tight">
+                    Developer Superpowers<br/>
+                    <span className="text-blue-500">Unleashed.</span>
+                  </h1>
+                  <p className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
+                    A complete suite of AI-powered utilities, generators, and formatters designed to accelerate your workflow.
+                  </p>
+                </div>
+
+                <div className="space-y-12">
+                  {(Object.entries(groupedTools) as [string, Tool[]][]).map(([category, tools]) => (
+                    <div key={category} className="space-y-6">
+                      <div className="flex items-center gap-4">
+                        <h2 className="text-xl font-bold text-slate-200">{category}</h2>
+                        <div className="h-px bg-white/5 flex-1" />
+                      </div>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        {tools.map(tool => (
+                          <button
+                            key={tool.id}
+                            onClick={() => handleSelectTool(tool.id)}
+                            className="group relative p-6 bg-[#1e293b]/40 hover:bg-[#1e293b]/80 border border-white/5 hover:border-blue-500/30 rounded-2xl text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-900/10 overflow-hidden"
+                          >
+                            <div className="absolute top-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <ArrowLeft className="w-4 h-4 text-blue-400 rotate-180" />
+                            </div>
+                            <div className="w-12 h-12 rounded-xl bg-blue-500/10 group-hover:bg-blue-500/20 flex items-center justify-center text-2xl mb-4 transition-colors">
+                              {tool.icon}
+                            </div>
+                            <h3 className="font-bold text-slate-200 mb-2 group-hover:text-blue-400 transition-colors">
+                              {tool.name}
+                            </h3>
+                            <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">
+                              {tool.description}
+                            </p>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </main>
-
-      {/* Floating 3JS Asset */}
-      <div id="canvas-container" className="fixed inset-0 pointer-events-none z-0 opacity-40"></div>
     </div>
   );
 }

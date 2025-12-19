@@ -1,4 +1,3 @@
-
 import { ReactNode } from 'react';
 
 export enum ToolCategory {
@@ -7,7 +6,7 @@ export enum ToolCategory {
   GENERATORS = 'Generators',
   CONVERTERS = 'Converters',
   CREATIVE = 'Creative & Lifestyle',
-  TEXT_FX = 'Industrial Text Forge',
+  TEXT_FX = 'Text Forge',
 }
 
 export interface Tool {
