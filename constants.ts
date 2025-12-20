@@ -1,5 +1,6 @@
 
-export const GEMINI_FLASH_MODEL = 'gemini-3-flash-preview';
+
+export const GEMINI_FLASH_MODEL = 'gemini-2.5-flash';
 export const GEMINI_PRO_MODEL = 'gemini-3-pro-preview';
 
 export const SYSTEM_INSTRUCTION_SQL = `You are an expert SQL database administrator. 
@@ -155,26 +156,3 @@ Instead, explain:
 2. Key logic or meaning modifications.
 3. Potential impacts or improvements.
 Return a concise, markdown-formatted analysis.`;
-
-export const SYSTEM_INSTRUCTION_ARCH = `You are a Solutions Architect. 
-Design a high-level system architecture based on the user's requirements. 
-Provide a clear description of components (Frontend, Backend, Database, Cache, Auth, etc.) and their interactions. 
-If possible, include a Mermaid-style diagram structure in the explanation.`;
-
-export const SYSTEM_INSTRUCTION_DOCKER = `You are a Docker Expert. 
-Generate an optimized, production-ready, multi-stage Dockerfile for the provided project description or source code. 
-Include best practices like non-root users, caching layers, and minimal base images.`;
-
-export const SYSTEM_INSTRUCTION_TESTS = `You are a Senior Software Engineer focused on Quality. 
-Generate comprehensive unit tests for the provided code snippet. 
-Use popular testing frameworks (Jest/Vitest for TS/JS, Pytest for Python, etc.). 
-Cover happy paths, edge cases, and error conditions.`;
-
-export const SYSTEM_INSTRUCTION_SECURITY = `You are a Cybersecurity Researcher and Pen-tester. 
-Audit the provided code for security vulnerabilities. 
-Identify issues like SQL injection, XSS, insecure dependencies, or bad practices. 
-Provide severity levels (Low, Medium, High) and suggested fixes.`;
-
-export const SYSTEM_INSTRUCTION_SCHEMA = `You are a Data Architect. 
-Convert the provided JSON sample into a robust TypeScript Interface, a Zod Schema, and a JSON Schema definition. 
-Return the result as a clear markdown document with code blocks.`;

@@ -26,22 +26,17 @@ import {
   SYSTEM_INSTRUCTION_SENTIMENT,
   SYSTEM_INSTRUCTION_EMOJI,
   SYSTEM_INSTRUCTION_SCAFFOLD,
-  SYSTEM_INSTRUCTION_DIFF_ANALYSIS,
-  SYSTEM_INSTRUCTION_ARCH,
-  SYSTEM_INSTRUCTION_DOCKER,
-  SYSTEM_INSTRUCTION_TESTS,
-  SYSTEM_INSTRUCTION_SECURITY,
-  SYSTEM_INSTRUCTION_SCHEMA
+  SYSTEM_INSTRUCTION_DIFF_ANALYSIS
 } from "../constants";
 import { GeneratedChartData, ColorPalette, AppSettings } from "../types";
 
 const LS_KEY = 'devtools_ai_settings';
 
-// Safe environment variable accessor to prevent crashes in browsers
+// Safe accessor for process.env to prevent crashes in browsers
 const getEnvApiKey = (): string => {
   try {
     return process.env.API_KEY || '';
-  } catch (e) {
+  } catch {
     return '';
   }
 };
@@ -81,7 +76,7 @@ const getAiClient = () => {
   return new GoogleGenAI({ apiKey });
 };
 
-// --- AI Methods ---
+// --- Existing Methods ---
 
 export const generateSqlAdvice = async (prompt: string): Promise<string> => {
   try {
@@ -497,78 +492,6 @@ export const analyzeDiff = async (original: string, modified: string): Promise<s
     return response.text || "";
   } catch (error) {
     return `Error analyzing diff: ${error}`;
-  }
-};
-
-// --- New Tools Methods ---
-
-export const generateArchitecture = async (requirements: string): Promise<string> => {
-  try {
-    const ai = getAiClient();
-    const response = await ai.models.generateContent({
-      model: getModel(GEMINI_PRO_MODEL),
-      contents: requirements,
-      config: { systemInstruction: SYSTEM_INSTRUCTION_ARCH }
-    });
-    return response.text || "No architecture generated.";
-  } catch (error) {
-    return `Error generating architecture: ${error}`;
-  }
-};
-
-export const generateDocker = async (prompt: string): Promise<string> => {
-  try {
-    const ai = getAiClient();
-    const response = await ai.models.generateContent({
-      model: getModel(GEMINI_PRO_MODEL),
-      contents: prompt,
-      config: { systemInstruction: SYSTEM_INSTRUCTION_DOCKER }
-    });
-    return response.text || "";
-  } catch (error) {
-    return `Error generating Dockerfile: ${error}`;
-  }
-};
-
-export const generateTests = async (code: string): Promise<string> => {
-  try {
-    const ai = getAiClient();
-    const response = await ai.models.generateContent({
-      model: getModel(GEMINI_PRO_MODEL),
-      contents: code,
-      config: { systemInstruction: SYSTEM_INSTRUCTION_TESTS }
-    });
-    return response.text || "";
-  } catch (error) {
-    return `Error generating tests: ${error}`;
-  }
-};
-
-export const auditSecurity = async (code: string): Promise<string> => {
-  try {
-    const ai = getAiClient();
-    const response = await ai.models.generateContent({
-      model: getModel(GEMINI_PRO_MODEL),
-      contents: code,
-      config: { systemInstruction: SYSTEM_INSTRUCTION_SECURITY }
-    });
-    return response.text || "";
-  } catch (error) {
-    return `Error auditing security: ${error}`;
-  }
-};
-
-export const generateSchema = async (jsonSample: string): Promise<string> => {
-  try {
-    const ai = getAiClient();
-    const response = await ai.models.generateContent({
-      model: getModel(GEMINI_PRO_MODEL),
-      contents: jsonSample,
-      config: { systemInstruction: SYSTEM_INSTRUCTION_SCHEMA }
-    });
-    return response.text || "";
-  } catch (error) {
-    return `Error generating schema: ${error}`;
   }
 };
 

@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { Tool, ToolCategory } from './types';
 
-// Tools Imports - Ensure ALL 45+ tools are imported
+// Tools Imports
 import SmartRegex from './components/tools/SmartRegex';
 import SmartSql from './components/tools/SmartSql';
 import ChartGenius from './components/tools/ChartGenius';
@@ -57,50 +57,11 @@ import ListTransformer from './components/tools/ListTransformer';
 import ProjectScaffolder from './components/tools/ProjectScaffolder';
 import SmartDiffAnalyst from './components/tools/SmartDiffAnalyst';
 
-// New Tool Imports
-import ArchitectureArchitect from './components/tools/ArchitectureArchitect';
-import DockerGenius from './components/tools/DockerGenius';
-import TestOracle from './components/tools/TestOracle';
-import SecurityAuditor from './components/tools/SecurityAuditor';
-import SchemaWeaver from './components/tools/SchemaWeaver';
-
 // Pages
 import Settings from './components/pages/Settings';
 
 const TOOLS: Tool[] = [
   // --- AI Powered ---
-  {
-    id: 'ai-arch',
-    name: 'Architecture Architect',
-    description: 'Design high-level system components and interactions.',
-    category: ToolCategory.AI,
-    icon: '🏢',
-    component: <ArchitectureArchitect />
-  },
-  {
-    id: 'ai-docker',
-    name: 'Docker Genius',
-    description: 'Optimized multi-stage Dockerfiles for any stack.',
-    category: ToolCategory.AI,
-    icon: '🐳',
-    component: <DockerGenius />
-  },
-  {
-    id: 'ai-test',
-    name: 'Test Oracle',
-    description: 'Generate comprehensive unit tests for your code.',
-    category: ToolCategory.AI,
-    icon: '🧪',
-    component: <TestOracle />
-  },
-  {
-    id: 'ai-security',
-    name: 'Security Auditor',
-    description: 'Audit code for common security vulnerabilities.',
-    category: ToolCategory.AI,
-    icon: '🔐',
-    component: <SecurityAuditor />
-  },
   {
     id: 'ai-prompt',
     name: 'Prompt Alchemy',
@@ -245,14 +206,6 @@ const TOOLS: Tool[] = [
     icon: '😂',
     component: <EmojiTranslator />
   },
-  {
-    id: 'util-math',
-    name: 'Quick Math',
-    description: 'Solve complex math problems with AI.',
-    category: ToolCategory.AI,
-    icon: '🧮',
-    component: <QuickMath />
-  },
 
   // --- Text FX ---
   {
@@ -349,24 +302,8 @@ const TOOLS: Tool[] = [
     icon: '🏷️',
     component: <MetaTagWizard />
   },
-  {
-    id: 'util-pass',
-    name: 'Password Analyzer',
-    description: 'Check password strength client-side.',
-    category: ToolCategory.GENERATORS,
-    icon: '🛡️',
-    component: <PasswordAnalyzer />
-  },
 
   // --- Converters ---
-  {
-    id: 'conv-schema',
-    name: 'Schema Weaver',
-    description: 'JSON to TypeScript / Zod / JSON Schema.',
-    category: ToolCategory.CONVERTERS,
-    icon: '🕸️',
-    component: <SchemaWeaver />
-  },
   {
     id: 'conv-base64',
     name: 'Base64 Converter',
@@ -478,6 +415,24 @@ const TOOLS: Tool[] = [
     category: ToolCategory.CONVERTERS,
     icon: '📋',
     component: <ListTransformer />
+  },
+
+  // --- Utilities ---
+  {
+    id: 'util-math',
+    name: 'Quick Math',
+    description: 'Solve complex math problems with AI.',
+    category: ToolCategory.AI,
+    icon: '🧮',
+    component: <QuickMath />
+  },
+  {
+    id: 'util-pass',
+    name: 'Password Analyzer',
+    description: 'Check password strength client-side.',
+    category: ToolCategory.GENERATORS,
+    icon: '🛡️',
+    component: <PasswordAnalyzer />
   }
 ];
 
@@ -670,7 +625,7 @@ export default function App() {
               <div className="animate-fade-in pb-20">
                 <div className="text-center py-12 lg:py-20 space-y-6">
                   <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-4">
-                    <Zap className="w-4 h-4 fill-blue-500/20" /> 50+ Professional Tools Available
+                    <Zap className="w-4 h-4 fill-blue-500/20" /> 30+ Professional Tools Available
                   </div>
                   <h1 className="text-4xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 tracking-tight">
                     Developer Superpowers<br/>
